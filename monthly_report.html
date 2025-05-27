@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="bn">
+<head>
+  <link rel="stylesheet" href="monthly_report.css">
+</head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>মাসিক রিপোর্ট</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0; padding: 20px; background: #f4f4f4;
+    }
+    nav.nav-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid #ccc;
+      display: flex; justify-content: space-around;
+      padding: 10px 0; z-index: 1000;
+    }
+    nav.nav-bar a {
+      color: #007bff; text-decoration: none;
+      font-size: 14px; font-weight: bold;
+    }
+    h1 { margin-top: 60px; text-align: center; }
+    .month-box {
+      background: white; padding: 15px; margin: 20px 0;
+      border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .delete-btn {
+      background: red; color: white;
+      border: none; border-radius: 3px;
+      padding: 5px 10px; font-size: 12px;
+      float: right; margin-left: 10px;
+    }
+    .pdf-btn {
+      background: green; color: white;
+      padding: 10px; border-radius: 5px;
+      border: none; cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+ <!-- 3D-style Navigation Buttons -->
+<nav style="
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px 10px;
+  background: #f9f9f9;
+">
+  <a href="home.html" style="
+    background: linear-gradient(to right, #6dd5ed, #2193b0);
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: transform 0.1s ease;
+  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    হোম
+  </a>
+  <a href="payment.html" style="
+    background: linear-gradient(to right, #6dd5ed, #2193b0);
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: transform 0.1s ease;
+  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    পেমেন্ট
+  </a>
+  <a href="monthly_report.html" style="
+    background: linear-gradient(to right, #6dd5ed, #2193b0);
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: transform 0.1s ease;
+  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    মাসিক হিসাব
+  </a>
+</nav>
+  
+  <h1>মাসিক রিপোর্ট</h1>
+<div id="reportContainer"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  const UNIT_STORAGE = 'labUnitData';
+  const PAYMENT_STORAGE = 'labPaymentData';
+  const DUE_STORAGE = 'monthlyDue';
+
+  function getAllData(key) {
+    return JSON.parse(localStorage.getItem(key) || '[]');
+  }
+
+  function getMonthlyGroups(data) {
+    const groups = {};
+    data.forEach(item => {
+      const month = item.date.slice(0, 7);
+      if (!groups[month]) groups[month] = [];
+      groups[month].push(item);
+    });
+    return groups;
+  }
+
+  function saveData(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+
+  function renderReports() {
+    const units = getAllData(UNIT_STORAGE);
+    const payments = getAllData(PAYMENT_STORAGE);
+    const dues = JSON.parse(localStorage.getItem(DUE_STORAGE) || '{}');
+
+    const unitGroups = getMonthlyGroups(units);
+    const payGroups = getMonthlyGroups(payments);
+
+    const months = Object.keys({ ...unitGroups, ...payGroups }).sort().reverse();
+    const container = document.getElementById('reportContainer');
+    container.innerHTML = '';
+
+    months.forEach(month => {
+      const unitList = unitGroups[month] || [];
+      const payList = payGroups[month] || [];
+      const totalUnit = unitList.reduce((sum, u) => sum + u.unit, 0);
+      const totalTk = unitList.reduce((sum, u) => sum + (u.unit * u.rate), 0);
+      const totalPay = payList.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+      const prevDue = dues[month] || 0;
+      const currentDue = prevDue + totalTk - totalPay;
+
+      const div = document.createElement('div');
+      div.className = 'month-box';
+      div.innerHTML = `
+        <h3>${month} মাসের হিসাব</h3>
+        <p>মোট ইউনিট: ${totalUnit}</p>
+        <p>মোট টাকা: ${totalTk}৳</p>
+        <p>মোট পেমেন্ট: ${totalPay}৳</p>
+        <p>পূর্বের ডিউ: ${prevDue}৳</p>
+        <p style="color:${currentDue > 0 ? 'red' : 'green'}">বর্তমান ডিউ: ${currentDue}৳</p>
+        <div>
+          <h4>পেমেন্ট ডিটেইলস</h4>
+          ${payList.length ? payList.map((p, i) => `
+            <div>
+              ৳${p.amount} (${p.date} ${p.time})<br>
+              নাম্বার: ${p.mobile}, TRX: ${p.trxid}
+              <button onclick="deletePayment('${month}', ${i})">ডিলিট</button>
+            </div>
+          `).join('<hr>') : '<p>এই মাসে কোন পেমেন্ট হয়নি</p>'}
+        </div>
+        <button onclick="downloadSingleMonthPDF(this)">Download PDF</button>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function deletePayment(month, index) {
+    const all = getAllData(PAYMENT_STORAGE);
+    const monthPays = all.filter(p => p.date.startsWith(month));
+    const toDelete = monthPays[index];
+    const updated = all.filter(p => p !== toDelete);
+    saveData(PAYMENT_STORAGE, updated);
+    renderReports();
+  }
+
+  function downloadSingleMonthPDF(button) {
+    const box = button.closest('.month-box');
+    const clone = box.cloneNode(true);
+    const monthText = box.querySelector('h3').textContent;
+
+    // Remove all buttons
+    clone.querySelectorAll('button').forEach(btn => btn.remove());
+
+    // Header
+    const header = document.createElement('div');
+    header.style.textAlign = 'center';
+    header.innerHTML = `
+      <h1 style="margin-bottom: 0;">Chowdhury Dental</h1>
+      <h3 style="margin-top: 5px;">${monthText}</h3>
+      <hr style="margin: 10px 0;">
+    `;
+
+    const pdfContent = document.createElement('div');
+    pdfContent.appendChild(header);
+    pdfContent.appendChild(clone);
+
+    html2pdf().set({
+      filename: `${monthText}.pdf`,
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(pdfContent).save();
+    Swal.fire('Success!', 'PDF generated successfully', 'success');
+  }
+
+  renderReports();
+</script>
+  
+</body>
+</html>

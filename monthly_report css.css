@@ -1,0 +1,134 @@
+/* monthly_report.css */
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: #f4f4f4;
+}
+
+/* Navigation Bar */
+nav.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+/* Navigation Button Styles */
+nav a {
+  background: linear-gradient(to right, #6dd5ed, #2193b0);
+  color: white;
+  padding: 12px 25px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  transition: transform 0.1s ease;
+}
+
+nav a:hover {
+  transform: scale(1.05);
+}
+
+/* Page Title */
+h1 {
+  margin-top: 80px;
+  text-align: center;
+  color: #333;
+}
+
+/* Report Box */
+.month-box {
+  background: white;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Monthly Headings */
+.month-box h3 {
+  margin-top: 0;
+  color: #0056b3;
+}
+
+/* Payment Entry */
+.month-box div {
+  margin-top: 10px;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.month-box hr {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px dashed #ccc;
+}
+
+/* Delete Button */
+.delete-btn,
+.month-box button {
+  background-color: #e60000;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.month-box button {
+  background-color: #28a745;
+  font-size: 14px;
+  padding: 8px 15px;
+  margin-top: 10px;
+}
+
+.month-box button:hover {
+  opacity: 0.9;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+/* Payment Detail Color */
+.month-box p {
+  margin: 5px 0;
+  font-size: 15px;
+}
+
+/* Color based on due */
+.month-box p[style*="color:red"] {
+  font-weight: bold;
+  color: red;
+}
+.month-box p[style*="color:green"] {
+  font-weight: bold;
+  color: green;
+}
+
+/* Responsive Layout */
+@media (max-width: 600px) {
+  nav.nav-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+  nav a {
+    width: 90%;
+    text-align: center;
+  }
+  .month-box {
+    padding: 15px;
+  }
+}
+

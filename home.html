@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="bn">
+<head>
+    <link rel="stylesheet" href="home.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>হোম - হিসাব</title>
+  <style>
+    body 
+  {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0; padding: 20px; background: #f0f0f0;
+    }nav.nav-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: #fff; border-bottom: 1px solid #ccc;
+  display: flex; justify-content: space-around;
+  padding: 10px 0; z-index: 1000;
+}
+
+nav.nav-bar a {
+  color: #007bff; text-decoration: none;
+  font-size: 14px; font-weight: bold;
+}
+
+h1 { margin-top: 60px; text-align: center; }
+
+.summary {
+  text-align: center; margin: 20px 0;
+}
+
+.summary p {
+  margin: 8px 0; font-size: 16px;
+}
+
+.form-section {
+  background: white; padding: 15px; margin: 10px 0;
+  border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+label { display: block; margin: 10px 0 5px; }
+input, select {
+  width: 100%; padding: 10px; border: 1px solid #ccc;
+  border-radius: 5px; font-size: 14px;
+}
+
+button {
+  margin-top: 10px; padding: 10px 20px;
+  background-color: #007bff; color: white;
+  border: none; border-radius: 5px;
+  cursor: pointer; font-size: 16px;
+}
+
+.unit-list { margin-top: 20px; }
+.unit-item {
+  background: #fff; margin: 5px 0; padding: 10px;
+  border-radius: 5px; display: flex; justify-content: space-between;
+}
+.delete-btn {
+  background: red; color: white;
+  border: none; border-radius: 3px;
+  padding: 5px 10px; font-size: 12px;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+    
+<!-- 3D-style Chowdhury Dental Header -->
+<h1 style="
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  padding: 20px 10px;
+  margin-top: 0;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border-bottom: 3px solid #0077cc;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+">
+  Chowdhury Dental
+</h1>
+
+<!-- 3D-style Navigation Buttons -->
+<nav style="
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px 10px;
+  background: #f9f9f9;
+">
+  <a href="home.html" style="
+    background: linear-gradient(to right, #6dd5ed, #2193b0);
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: transform 0.1s ease;
+  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    হোম
+  </a>
+  <a href="payment.html" style="
+    background: linear-gradient(to right, #6dd5ed, #2193b0);
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: transform 0.1s ease;
+  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    পেমেন্ট
+  </a>
+  <a href="monthly_report.html" style="
+    background: linear-gradient(to right, #6dd5ed, #2193b0);
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: transform 0.1s ease;
+  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    মাসিক হিসাব
+  </a>
+</nav>
+    <div class="summary">
+  <p>এই মাসে টোটাল ইউনিট: <strong id="summaryUnit">0</strong></p>
+  <p>টোটাল টাকা: <strong id="summaryTk">0৳</strong></p>
+  <p>টোটাল ডিউ: <strong id="summaryDue">0৳</strong></p>
+</div><div class="form-section">
+  <h3>ক্যাপ পাঠানো হয়েছে</h3>
+  <label>ইউনিট সংখ্যা:</label>
+  <input type="number" id="unitCount" placeholder="উদাহরণ: ৫" /><label>প্রতি ইউনিট মূল্য (default ৬০০৳):</label> <input type="number" id="unitRate" placeholder="৬০০" value="600" />
+
+<button style="
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  color: white;
+  padding: 14px 28px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+" 
+onclick="addUnit()"
+onmouseover="this.style.transform='scale(1.05)'"
+onmouseout="this.style.transform='scale(1)'">
+  এড করুন
+</button>
+
+</div><div class="unit-list" id="unitList"></div>
+ 
+    <script>
+  const UNIT_STORAGE = 'labUnitData'; // যদি মূল unit data এই নামে থাকে
+  const PAYMENT_STORAGE = 'labPaymentData_home';
+  const RATE = 600;
+
+  function getData() {
+    return JSON.parse(localStorage.getItem(UNIT_STORAGE) || '[]');
+  }
+
+  function saveData(data) {
+    localStorage.setItem(UNIT_STORAGE, JSON.stringify(data));
+  }
+
+  function getPayments() {
+    return JSON.parse(localStorage.getItem(PAYMENT_STORAGE) || '[]');
+  }
+
+  function addUnit() {
+  const unit = parseInt(document.getElementById('unitCount').value);
+  const rate = parseInt(document.getElementById('unitRate').value) || RATE;
+  if (isNaN(unit) || unit <= 0) return alert('ভালোমত ইউনিট দিন');
+
+  const date = new Date().toISOString().split('T')[0];
+  const units = getData();
+  units.push({ unit, rate, date });
+  saveData(units);
+  
+  document.getElementById('unitCount').value = '';
+  document.getElementById('unitRate').value = RATE;
+
+  renderUnits();
+  renderSummary();
+}
+
+  function deleteUnit(index) {
+    const units = getData();
+    units.splice(index, 1);
+    saveData(units);
+    renderUnits(); renderSummary();
+  }
+
+  function renderUnits() {
+    const list = document.getElementById('unitList');
+    const data = getData();
+    list.innerHTML = '';
+    data.forEach((u, i) => {
+      const item = document.createElement('div');
+      item.className = 'unit-item';
+      item.innerHTML = `ইউনিট: ${u.unit}, তারিখ: ${u.date}
+        <button class="delete-btn" onclick="deleteUnit(${i})">X</button>`;
+      list.appendChild(item);
+    });
+  }
+
+  function renderSummary() {
+  const units = getData();
+  const payments = getPayments();
+  const month = new Date().toISOString().slice(0, 7);
+
+  const monthUnits = units.filter(u => u.date.startsWith(month));
+  const monthTotal = monthUnits.reduce((sum, u) => sum + (u.unit * u.rate), 0);
+  const totalUnits = monthUnits.reduce((sum, u) => sum + u.unit, 0);
+  const paid = payments
+    .filter(p => p.date.startsWith(month))
+    .reduce((sum, p) => sum + p.amount, 0);
+
+  document.getElementById('summaryUnit').innerText = totalUnits;
+  document.getElementById('summaryTk').innerText = `${monthTotal}৳`;
+  document.getElementById('summaryDue').innerText = `${monthTotal - paid}৳`;
+}
+  renderUnits();
+  renderSummary();
+</script>
+</body>
+</html>
