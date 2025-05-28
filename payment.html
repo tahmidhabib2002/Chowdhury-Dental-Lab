@@ -1,172 +1,206 @@
-<!DOCTYPE html><html lang="bn">
+<!DOCTYPE html>
+<html lang="bn">
 <head>
-  <link rel="stylesheet" href="payment.css">
-</head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>টাকা পেমেন্ট</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>পেমেন্ট</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0; padding: 20px; background: #f4f4f4;
+      background: #f0f0f0;
+      margin: 0;
+      padding: 20px;
     }
-    nav.nav-bar {
-      position: fixed; top: 0; left: 0; right: 0;
-      background: #fff; border-bottom: 1px solid #ccc;
-      display: flex; justify-content: space-around;
-      padding: 10px 0; z-index: 1000;
+    h1 {
+      text-align: center;
+      font-size: 40px;
+      font-weight: bold;
+      color: white;
+      padding: 20px 10px;
+      margin-top: 0;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      border-bottom: 3px solid #0077cc;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
-    nav.nav-bar a {
-      color: #007bff; text-decoration: none;
-      font-size: 14px; font-weight: bold;
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 15px 10px;
+      background: #f9f9f9;
     }
-    h1 { margin-top: 60px; text-align: center; }
-    .form-section, .history-section {
-      background: white; padding: 15px; margin: 20px 0;
-      border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    nav a {
+      background: linear-gradient(to right, #6dd5ed, #2193b0);
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+      transition: transform 0.1s ease;
     }
-    label { display: block; margin: 10px 0 5px; }
-    input {
-      width: 100%; padding: 10px; border: 1px solid #ccc;
-      border-radius: 5px; font-size: 14px;
+    nav a:hover {
+      transform: scale(1.05);
+    }
+    .form-section {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    input[type="number"],
+    input[type="date"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
     button {
-      margin-top: 10px; padding: 10px 20px;
-      background-color: #007bff; color: white;
-      border: none; border-radius: 5px;
-      cursor: pointer; font-size: 16px;
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      transform: scale(1.03);
+    }
+    .payment-list {
+      max-width: 600px;
+      margin: 30px auto;
     }
     .payment-item {
-      background: #f9f9f9; margin: 8px 0; padding: 10px;
-      border-left: 5px solid #007bff;
-      display: flex; justify-content: space-between;
+      background: #fff;
+      margin: 10px 0;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
     .delete-btn {
-      background: red; color: white;
-      border: none; border-radius: 3px;
-      padding: 5px 10px; font-size: 12px;
+      background: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
       cursor: pointer;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-<!-- 3D-style Navigation Buttons -->
-<nav style="
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  padding: 15px 10px;
-  background: #f9f9f9;
-">
-  <a href="home.html" style="
-    background: linear-gradient(to right, #6dd5ed, #2193b0);
-    color: white;
-    padding: 12px 25px;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-    transition: transform 0.1s ease;
-  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-    হোম
-  </a>
-  <a href="payment.html" style="
-    background: linear-gradient(to right, #6dd5ed, #2193b0);
-    color: white;
-    padding: 12px 25px;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-    transition: transform 0.1s ease;
-  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-    পেমেন্ট
-  </a>
-  <a href="monthly_report.html" style="
-    background: linear-gradient(to right, #6dd5ed, #2193b0);
-    color: white;
-    padding: 12px 25px;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-    transition: transform 0.1s ease;
-  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-    মাসিক হিসাব
-  </a>
-</nav>
-  
-<input type="number" id="amount" placeholder="পরিমাণ (৳)">
-<input type="text" id="mobile" placeholder="মোবাইল নম্বর">
-<input type="text" id="trxid" placeholder="লেনদেন আইডি">
+  <h1>পেমেন্ট</h1>
+  <nav>
+    <a href="home.html">হোম</a>
+    <a href="payment.html">পেমেন্ট</a>
+    <a href="monthly_report.html">মাসিক হিসাব</a>
+  </nav>
 
-  <button style="
-  background: linear-gradient(to right, #00c6ff, #0072ff);
-  color: white;
-  padding: 14px 28px;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  cursor: pointer;
-  transition: transform 0.1s ease;
-" 
-onclick="savePayment()"
-onmouseover="this.style.transform='scale(1.05)'"
-onmouseout="this.style.transform='scale(1)'"
->পেমেন্ট যুক্ত করুন</button>
+  <div class="form-section">
+    <label for="amount">পরিমাণ (৳):</label>
+    <input type="number" id="amount" placeholder="যেমন: ৫০০" />
 
-</div><div class="form-section">
-  <p>এই মাসে টোটাল টাকা: <strong id="totalTk">0৳</strong></p>
-  <p>পেমেন্ট হয়েছে: <strong id="paidTk">0৳</strong></p>
-  <p>ডিউ রয়েছে: <strong id="dueTk">0৳</strong></p>
-</div><div class="history-section">
-  <h3>পেমেন্ট হিস্ট্রি</h3>
-  <div id="paymentHistory"></div>
-</div>
-  
-<script>
-  const PAYMENT_STORAGE = 'labPaymentData';
+    <label for="date">তারিখ:</label>
+    <input type="date" id="date" />
 
-  function savePayment() {
-    const amount = document.getElementById('amount').value;
-    const mobile = document.getElementById('mobile').value;
-    const trxid = document.getElementById('trxid').value;
+    <label for="mobile">মোবাইল নাম্বার:</label>
+    <input type="text" id="mobile" placeholder="017xxxxxxxx" />
 
-    if (!amount || !mobile || !trxid) {
-      alert('সব তথ্য পূরণ করুন');
-      return;
+    <label for="trxid">TRX আইডি:</label>
+    <input type="text" id="trxid" placeholder="ট্রানজেকশন আইডি" />
+
+    <button onclick="addPayment()">পেমেন্ট যুক্ত করুন</button>
+  </div>
+
+  <div class="payment-list" id="paymentList"></div>
+
+  <script>
+    const PAYMENT_STORAGE = 'labPaymentData_home';
+
+    function getPayments() {
+      return JSON.parse(localStorage.getItem(PAYMENT_STORAGE) || '[]');
     }
 
-    const now = new Date();
-    const date = now.toISOString().slice(0, 10);  // YYYY-MM-DD
-    const time = now.toTimeString().slice(0, 5);   // HH:MM
+    function savePayments(data) {
+      localStorage.setItem(PAYMENT_STORAGE, JSON.stringify(data));
+    }
 
-    const payment = {
-      amount: parseFloat(amount),
-      mobile: mobile,
-      trxid: trxid,
-      date: date,
-      time: time
-    };
+    function addPayment() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
+      const mobile = document.getElementById('mobile').value.trim();
+      const trxid = document.getElementById('trxid').value.trim();
 
-    const payments = JSON.parse(localStorage.getItem(PAYMENT_STORAGE) || '[]');
-    payments.push(payment);
-    localStorage.setItem(PAYMENT_STORAGE, JSON.stringify(payments));
+      if (isNaN(amount) || amount <= 0) {
+        alert('সঠিক টাকার পরিমাণ লিখুন');
+        return;
+      }
 
-    // success alert
-    alert('পেমেন্ট সফলভাবে সংরক্ষিত হয়েছে');
+      const time = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
 
-    // রিপোর্ট পেজে নিয়ে যান (বা পেমেন্ট পেজ রিফ্রেশ করুন)
-    window.location.href = 'monthly_report.html';
-  }
-</script>
-  
+      const payments = getPayments();
+      payments.push({ amount, date, time, mobile, trxid });
+      savePayments(payments);
+
+      // Reset form
+      document.getElementById('amount').value = '';
+      document.getElementById('date').value = '';
+      document.getElementById('mobile').value = '';
+      document.getElementById('trxid').value = '';
+
+      renderPayments();
+    }
+
+    function deletePayment(index) {
+      const payments = getPayments();
+      payments.splice(index, 1);
+      savePayments(payments);
+      renderPayments();
+    }
+
+    function renderPayments() {
+      const list = document.getElementById('paymentList');
+      const payments = getPayments();
+      list.innerHTML = '';
+      payments.forEach((p, i) => {
+        const div = document.createElement('div');
+        div.className = 'payment-item';
+        div.innerHTML = `
+          <div>
+            <strong>${p.amount}৳</strong> <br>
+            তারিখ: ${p.date} (${p.time || ''})<br>
+            ${p.mobile ? `মোবাইল: ${p.mobile}<br>` : ''}
+            ${p.trxid ? `TRX: ${p.trxid}` : ''}
+          </div>
+          <button class="delete-btn" onclick="deletePayment(${i})">X</button>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    renderPayments();
+  </script>
 </body>
 </html>
